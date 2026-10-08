@@ -240,8 +240,8 @@ public class VoucherServiceImpl implements VoucherService {
 		voucher.setName(businessServiceName);
 		voucher.setType(RECEIPTS_VOUCHER_TYPE);
 		voucher.setFund(new Fund());
-//		voucher.getFund().setCode(businessService.getFund());
-		voucher.getFund().setCode("00002");
+		voucher.getFund().setCode(businessService.getFund());
+//		voucher.getFund().setCode("00001");
 		voucher.setFunction(new Function());
 		voucher.getFunction().setCode(businessService.getFunction());
 		voucher.setDepartment(businessService.getDepartment());
