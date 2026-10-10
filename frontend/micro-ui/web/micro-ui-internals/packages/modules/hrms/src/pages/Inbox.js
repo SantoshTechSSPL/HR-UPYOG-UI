@@ -28,7 +28,19 @@ const Inbox = ({ parentRoute, businessService = "HRMS", initialStates = {}, filt
     paginationParams,
     isupdate
   );
-
+  const filteredData = React.useMemo(() => {
+    if (!Array.isArray(data?.Employees)) return data;
+  
+    return {
+      ...data,
+      Employees: data.Employees.map((employee) => ({
+        ...employee,
+        assignments: employee.assignments?.filter(
+          (a) => a.isCurrentAssignment === true
+        ) || [],
+      })),
+    };
+  }, [data]);
   useEffect(() => {
     // setTotalReacords(res?.EmployeCount?.totalEmployee);
   }, [res]);
@@ -95,7 +107,7 @@ const Inbox = ({ parentRoute, businessService = "HRMS", initialStates = {}, filt
       return (
         <MobileInbox
           businessService={businessService}
-          data={data}
+          data={filteredData}
           isLoading={hookLoading}
           defaultSearchParams={initialStates.searchParams}
           isSearch={!isInbox}
@@ -125,7 +137,7 @@ const Inbox = ({ parentRoute, businessService = "HRMS", initialStates = {}, filt
           {isInbox && <Header>{t("HR_HOME_SEARCH_RESULTS_HEADING")}</Header>}
           <DesktopInbox
             businessService={businessService}
-            data={data}
+            data={filteredData}
             isLoading={hookLoading}
             defaultSearchParams={initialStates.searchParams}
             isSearch={!isInbox}
